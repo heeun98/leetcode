@@ -4,14 +4,6 @@ import java.util.stream.*;
 class Solution {
     public int hIndex(int[] citations) {
 
-
-        if (citations.length == 1) {
-            if (citations[0] == 0) {
-                return 0;
-            }
-            return 1;
-        }
-        
         Arrays.sort(citations);
 
         int min = citations[0];
