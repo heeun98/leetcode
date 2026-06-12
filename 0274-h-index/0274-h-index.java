@@ -14,13 +14,8 @@ class Solution {
         
         Arrays.sort(citations);
 
-        int min = Arrays.stream(citations)
-                        .min()
-                        .getAsInt();
-
-        int max = Arrays.stream(citations)
-                        .max()
-                        .getAsInt();
+        int min = citations[0];
+        int max = citations[citations.length - 1];
         int result = 0;
         int idx = 0;
         for (int i = 0; i <= max; i++) {
