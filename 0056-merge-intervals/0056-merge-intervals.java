@@ -20,15 +20,10 @@ class Solution {
             }
         }
         result.add(prev);
-        
-        int[][] result2 = new int[result.size()][2];
-        
-        for (int i = 0; i < result.size(); i++) {
-            result2[i] = result.get(i);
-        }
-        
 
-        return result2;
+
+        return result.toArray(new int[result.size()][]);
+    
     }
 }
 
