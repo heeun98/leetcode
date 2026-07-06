@@ -16,7 +16,6 @@ class Solution {
     
             if (first <= last) {
                 last = Math.min(last, poll[1]);
-                
             } else {
                 cnt++;
                 last = poll[1];
