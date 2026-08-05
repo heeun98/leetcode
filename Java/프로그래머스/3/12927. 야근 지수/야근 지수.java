@@ -2,28 +2,30 @@ import java.util.*;
 
 class Solution {
     public long solution(int n, int[] works) {
-    
-        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1); //         최대힙
+        long answer = 0;
         
-        for (int i = 0; i < works.length; i++) {
-            pq.add(works[i]);
-        }
         
-        for (int i = 0; i < n; i++) {
-            int num = pq.poll();
-            if (num == 0) return 0L;
-            num--;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> {
+            return o2 - o1;
+        });
+        
+        
+        for (int num : works) {
             pq.add(num);
         }
         
-        List<Integer> result = new ArrayList<>(pq);
-        Long sum = 0L;
-        for (int i = 0; i < result.size(); i++) {
-            int number = result.get(i);
-            sum += (number * number);
+        for (int i = 0; i < n; i++) {
+            int poll = pq.poll() - 1;
+            if (poll < 0) break;
+            pq.add(poll);
+        }
+        
+        long sum = 0L;
+        while (!pq.isEmpty()) {
+            int nums = pq.poll();
+            sum = sum + (nums * nums);
         }
         
         return sum;
-       
     }
 }
