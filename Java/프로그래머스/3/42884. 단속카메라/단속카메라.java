@@ -2,26 +2,27 @@ import java.util.*;
 
 class Solution {
     public int solution(int[][] routes) {
-        int answer = 0;
-        
-        
         Arrays.sort(routes, (o1, o2) -> o1[0] - o2[0]);
-        int last = routes[0][1];
-        int cnt = 1;
+        int finalEnd = routes[0][1];
+        
+        int count = 0;
         
         for (int i = 1; i < routes.length; i++) {
-            int[] poll = routes[i];
+            int start = routes[i][0];
+            int end = routes[i][1];
             
-            int first = poll[0];
-    
-            if (first <= last) {
-                last = Math.min(last, poll[1]);
+            
+            if (start <= finalEnd) {
+                
+                if (end <= finalEnd) {
+                    finalEnd = end;
+                } 
+                
             } else {
-                cnt++;
-                last = poll[1];
+                count++;
+                finalEnd = end;
             }
         }
-        
-        return cnt;
+        return count + 1;
     }
 }
