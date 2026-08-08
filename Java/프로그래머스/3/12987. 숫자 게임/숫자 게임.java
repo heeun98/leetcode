@@ -1,25 +1,37 @@
 import java.util.*;
+import java.util.stream.*;
+
 
 class Solution {
     public int solution(int[] A, int[] B) {
-        int answer = -1;
         
-        Arrays.sort(A); // 7 5 3 1
-        Arrays.sort(B); // 8 6 2 2
-        int point = 0;
-        int i = A.length - 1;
-        int j = B.length - 1; 
         
-        while(i >= 0) {
-            if (A[i] < B[j]) {
-                point++;
-                i--;
-                j--;
-            } else {
-                i--;
+        Arrays.sort(A);
+        
+        Arrays.sort(B);
+        
+        
+        int idx1 = 0;
+        int idx2 = 0;
+        int sum = 0;
+        
+        while (idx2 < B.length && idx1 < A.length) {
+            
+            while (idx2 < B.length && A[idx1] >= B[idx2]) {
+                idx2++;
             }
+            
+            if (idx2 >= B.length) break;
+
+            if (A[idx1] < B[idx2]) {
+                sum++;
+                idx1++;
+                idx2++;
+                continue;
+            }
+                 
         }
         
-        return point;
+        return sum;
     }
 }
