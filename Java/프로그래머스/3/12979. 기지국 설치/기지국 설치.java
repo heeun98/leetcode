@@ -1,27 +1,27 @@
 class Solution {
     public int solution(int n, int[] stations, int w) {
         int answer = 0;
-        int range = 2 * w + 1;// 기지국 하나가 커버하는 폭
-        int lastCovered = 0;// 지금까지 커버된 마지막 아파트 위치
-
+        int endPoint = 0;
+        int result = 0;
         for (int station : stations) {
-            int coverStart = station - w;
-            int coverEnd = station + w;
-
-            int gap = coverStart - lastCovered - 1;
-            if (gap > 0) {
-                answer += (gap + range - 1) / range; 
+            
+            int start = station - w;
+            int end = station + w;
+            int range = start - endPoint - 1;
+            
+            if (range > 0) {
+                result +=  (range + 2 * w) / (2 * w + 1);
             }
-
-            lastCovered = Math.max(lastCovered, coverEnd);
+            if (end >= n) {
+                endPoint = n;
+            } else {
+                endPoint = end;
+            }
         }
-
-
-        int gap = n - lastCovered;
-        if (gap > 0) {
-            answer += (gap + range - 1) / range;
-        }
-
-        return answer;
+        
+        int finalGap = n - endPoint;
+        
+        if (finalGap > 0) result += (finalGap + 2 * w) / (2 * w + 1);
+        return result;
     }
 }
