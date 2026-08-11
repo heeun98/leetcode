@@ -1,33 +1,48 @@
 import java.util.*;
 
-
 class Solution {
     
     int[] parents;
-    public int solution(int n, int[][] costs) {
     
-        parents = new int[n];
+    public int solution(int n, int[][] costs) {
+        int answer = 0;
         
+        parents = new int[n];
         for (int i = 0; i < n; i++) {
             parents[i] = i;
         }
         
         
-        Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
-        int result = 0;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[2] - o2[2]);
+       
         for (int[] cost : costs) {
-            
-            int to = cost[0];
-            int from = cost[1];
-            int weight = cost[2];
-            
-            if (find(to) == find(from)) continue;
-            
-            union(to, from);
-            result += weight;
+            pq.add(cost);
         }
         
-        return result;
+        int sum = 0;
+        
+        while (!pq.isEmpty()) {
+            int[] poll = pq.poll();
+            int from = poll[0];
+            int to = poll[1];
+            int weight = poll[2];
+            
+            if (find(from) == find(to)) continue;
+            
+            sum += weight;
+            union(from, to);
+        }
+        
+        
+        return sum;
+    }
+    
+    public void union(int from , int to) {
+        
+        int a = find(from);
+        int b = find(to);
+        
+        parents[a] = b;
     }
     
     public int find(int num) {
@@ -37,13 +52,7 @@ class Solution {
         }
         
         return parents[num] = find(parents[num]);
-    }
-            
-    public void union(int to, int from) {
         
-        int a = find(to);
-        int b = find(from);
         
-        parents[a] = b;
     }
 }
