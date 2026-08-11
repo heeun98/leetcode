@@ -1,46 +1,49 @@
 import java.util.*;
 
+
 class Solution {
+    
+    int[] parents;
     public int solution(int n, int[][] costs) {
-        
-        
-        List<int[]>[] gr = new ArrayList[n];
-        boolean[] visit = new boolean[n];
+    
+        parents = new int[n];
         
         for (int i = 0; i < n; i++) {
-            gr[i] = new ArrayList<>();
+            parents[i] = i;
         }
         
-        for (int[] c : costs) {
-            int start = c[0];
-            int end = c[1];
-            int cost = c[2];
+        
+        Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
+        int result = 0;
+        for (int[] cost : costs) {
             
-            gr[start].add(new int[]{end, cost});
-            gr[end].add(new int[]{start, cost});
+            int to = cost[0];
+            int from = cost[1];
+            int weight = cost[2];
+            
+            if (find(to) == find(from)) continue;
+            
+            union(to, from);
+            result += weight;
         }
         
-        PriorityQueue<int[]> pq = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        return result;
+    }
+    
+    public int find(int num) {
         
-        pq.add(new int[]{0, 0});
-        int sum = 0;
-        while (!pq.isEmpty()) {
-            
-            int[] current = pq.poll();
-            int node = current[0];
-            int cost = current[1];
-            
-            if (visit[node]) continue;
-            
-            visit[node] = true;
-            sum += cost;
-            
-            for (int[] next : gr[node]) {
-                pq.add(next);
-            }
-            
+        if (num == parents[num]) {
+            return num;
         }
         
-        return sum;
+        return parents[num] = find(parents[num]);
+    }
+            
+    public void union(int to, int from) {
+        
+        int a = find(to);
+        int b = find(from);
+        
+        parents[a] = b;
     }
 }
