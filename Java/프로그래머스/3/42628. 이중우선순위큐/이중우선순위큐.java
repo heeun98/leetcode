@@ -2,40 +2,27 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] operations) {
-        
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        
-        for (String str : operations) {
-            String[] cal = str.split(" ");
-            
-            String op = cal[0];
-            int num = Integer.parseInt(cal[1]);
-            
+        TreeMap<Integer, Integer> tree = new TreeMap<>();
+
+        for (String s : operations) {
+            String[] parts = s.split(" ");
+            String op = parts[0];
+            int num = Integer.parseInt(parts[1]);
+
             if (op.equals("I")) {
-                map.put(num, map.getOrDefault(num, 0) + 1);
+                tree.put(num, tree.getOrDefault(num, 0) + 1);
                 continue;
             }
-            if (map.isEmpty()) continue;
-            
-            if (num == 1) {
-                map.pollLastEntry();
-                continue;
-            }
-            
-            if (num == -1) {
-                map.pollFirstEntry();
-                continue;
-            }
-            
+
+            if (tree.isEmpty()) continue;
+
+            int key = (num == 1) ? tree.lastKey() : tree.firstKey();
+            int cnt = tree.get(key);
+            if (cnt - 1 == 0) tree.remove(key);
+            else tree.put(key, cnt - 1);
         }
-        
-        
-        if (map.isEmpty()) {
-            return new int[]{0, 0};
-        } else {
-            int max = map.lastKey();
-            int min = map.firstKey();
-            return new int[]{max, min};
-        }
+
+        if (tree.isEmpty()) return new int[]{0, 0};
+        return new int[]{tree.lastKey(), tree.firstKey()};
     }
 }
