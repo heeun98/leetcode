@@ -1,54 +1,34 @@
 import java.util.*;
 
+
 class Solution {
-    
-    
-    private int[] d = new int[3];
     public int solution(int x, int y, int n) {
+        int answer = 0;
         
-        if (x == y) return 0;
+        int[] dp = new int[y + 1];
         
-        boolean[] visit = new boolean[y + 1];
-        Queue<Integer> que = new LinkedList<>();
-        int[] result = new int[y + 1];
+        Arrays.fill(dp, 1_000_000);
         
-        que.add(x);
-        visit[x] = true;
+        dp[x] = 0;
         
         
-        while (!que.isEmpty()) {
+        for (int i = x; i <= y; i++) {
             
-            int size = que.size();
-            
-            
-            for (int i = 0; i < size; i++) {
-                
-                int cur = que.poll();
-                
-                for (int j = 0 ; j < 3; j++) {
-                    int next = 0;
-                    if (j == 0) {
-                        next = cur * 2;
-                    } else if (j == 1) {
-                        next = cur * 3;
-                    } else {
-                        next = cur + n;
-                    }
-                    if (next > y) continue;
-                    
-                    if (visit[next]) continue;
-                    
-                    visit[next] = true;
-                    result[next] = result[cur] + 1;
-                    que.add(next);
-                }
-                
+            if (i + n <= y && dp[i + n] > dp[i] + 1) {
+                dp[i + n] = dp[i] + 1;
             }
             
+            if (i * 2 <= y && dp[i * 2] > dp[i] + 1) {
+                dp[i * 2] = dp[i] + 1;
+            }
             
+            if (i * 3 <= y && dp[i * 3] > dp[i] + 1) {
+                dp[i * 3] = dp[i] + 1;
+            }
         }
-        if (result[y] == 0) return -1;
         
-        return result[y];
+        if (dp[y] == 1_000_000) return -1;
+        
+        return dp[y];
     }
 }
