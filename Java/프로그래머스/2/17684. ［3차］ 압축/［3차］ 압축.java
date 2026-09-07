@@ -2,38 +2,40 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String msg) {
-                
-        List<String> list = new ArrayList<>();
-        
-        char c = 'A';
-        for (int i = 0; i < 26; i++) {
-            list.add(String.valueOf(c));
-            c++;
-        }
-        
-        System.out.println(list);
+        int[] answer = {};
         
         List<Integer> result = new ArrayList<>();
         
+        List<String> dic = new ArrayList<>();
+        char start = 'A';
+        for (int i = 0; i < 26; i++) {
+            dic.add(String.valueOf(start));
+            start++;
+        }
+        
+        
+        System.out.println(dic);
+        
         for (int i = 0; i < msg.length(); i++) {
-            char ch = msg.charAt(i);
-            String plus = String.valueOf(ch);
-            for (int j = i + 1; j < msg.length(); j++) {
-                if (!list.contains(plus + msg.charAt(j))) {
+            
+            String tmp = String.valueOf(msg.charAt(i));
+            
+            while (i < msg.length() - 1 && dic.contains(tmp)) {
+                i++;
+                if (dic.contains(tmp + msg.charAt(i))) {
+                    tmp += msg.charAt(i);
+                } else {
+                    i--;
                     break;
-                } 
-                
-                i = j;
-                plus = plus + msg.charAt(j);
+                }
             }
             
-            int index = list.indexOf(plus) + 1;
-            result.add(index);
             
-            if (i + 1 >= msg.length()) break;
-            list.add(plus + msg.charAt(i + 1));
-           
+            int idx = dic.indexOf(tmp);
+            result.add(idx + 1);
             
+            if (i >= msg.length() - 1) break;
+            dic.add(tmp + msg.charAt(i + 1));
         }
         
         return result.stream().mapToInt(i -> i).toArray();
