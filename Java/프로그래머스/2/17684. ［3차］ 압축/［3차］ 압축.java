@@ -14,28 +14,19 @@ class Solution {
         }
         
         
-        System.out.println(dic);
-        
         for (int i = 0; i < msg.length(); i++) {
             
             String tmp = String.valueOf(msg.charAt(i));
             
-            while (i < msg.length() - 1 && dic.contains(tmp)) {
+            while (i < msg.length() - 1&& dic.contains(tmp)) {
                 i++;
-                if (dic.contains(tmp + msg.charAt(i))) {
-                    tmp += msg.charAt(i);
-                } else {
-                    i--;
-                    break;
-                }
+                tmp += msg.charAt(i);
             }
-            
-            
             int idx = dic.indexOf(tmp);
-            result.add(idx + 1);
-            
             if (i >= msg.length() - 1) break;
             dic.add(tmp + msg.charAt(i + 1));
+            result.add(idx + 1);
+            
         }
         
         return result.stream().mapToInt(i -> i).toArray();
