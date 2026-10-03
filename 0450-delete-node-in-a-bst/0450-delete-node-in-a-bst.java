@@ -1,7 +1,9 @@
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
 
+
         if (root == null) return root;
+
 
         TreeNode parent = null;
         TreeNode find = null;
@@ -17,14 +19,16 @@ class Solution {
 
             parent = cur;
 
-            if (cur.val > key) {
-                cur = cur.left;
-            } else {
+            if (cur.val < key) {
                 cur = cur.right;
+            } else {
+                cur = cur.left;
             }
         }
 
-        if (find == null) return root;
+        if ( find == null) return root; // 못 찾은 경우 
+
+        find.val = key;
 
         if (find.left == null || find.right == null) {
 
@@ -39,7 +43,9 @@ class Solution {
             }
 
             return root;
+
         }
+
 
         TreeNode succParent = find;
         TreeNode succ = find.right;
@@ -58,5 +64,6 @@ class Solution {
         }
 
         return root;
+
     }
 }
