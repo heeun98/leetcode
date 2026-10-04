@@ -1,69 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-
-
+        
         if (root == null) return root;
 
-
-        TreeNode parent = null;
-        TreeNode find = null;
-
-        TreeNode cur = root;
-
-        while (cur != null) {
-
-            if (cur.val == key) {
-                find = cur;
-                break;
-            }
-
-            parent = cur;
-
-            if (cur.val < key) {
-                cur = cur.right;
-            } else {
-                cur = cur.left;
-            }
-        }
-
-        if ( find == null) return root; // 못 찾은 경우 
-
-        find.val = key;
-
-        if (find.left == null || find.right == null) {
-
-            TreeNode child = (find.left != null) ? find.left : find.right;
-
-            if (parent == null) return child;
-
-            if (parent.left == find) {
-                parent.left = child;
-            } else {
-                parent.right = child;
-            }
-
-            return root;
-
-        }
-
-
-        TreeNode succParent = find;
-        TreeNode succ = find.right;
-
-        while (succ.left != null) {
-            succParent = succ;
-            succ = succ.left;
-        }
-
-        find.val = succ.val;
-
-        if (succParent == find) {
-            succParent.right = succ.right;
+        if (root.val > key) {
+            root.left = deleteNode(root.left, key);
+        } else if (root.val < key) {
+            root.right = deleteNode(root.right, key);
         } else {
-            succParent.left = succ.right;
+            
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            TreeNode minNode = findMinNode(root.right);
+            root.val = minNode.val;
+            root.right = deleteNode(root.right, root.val);
         }
 
         return root;
 
+    }
+
+    private TreeNode findMinNode(TreeNode node) {
+
+        while (node.left != null) {
+            node = node.left;
+        }
+
+        return node;
     }
 }
