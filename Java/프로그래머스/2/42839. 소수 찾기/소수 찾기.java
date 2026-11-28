@@ -1,54 +1,42 @@
 import java.util.*;
 
-
 class Solution {
     
-    private Set<Integer> set = new HashSet<>();
+    private Set<Integer> uniqueNum = new HashSet<>();
     private int count = 0;
-    
     public int solution(String numbers) {
-        int answer = 0;
-        
-        char[] nums = numbers.toCharArray();
+        String[] nums = numbers.split("");
         boolean[] visit = new boolean[nums.length];
         
         
-        dfs(nums, visit, "");
+        dfs(0, nums, visit, "");
         
-        
-        return count;
+
+        return uniqueNum.size();
     }
     
-    private void dfs(char[] nums, boolean[] visit, String n) {
-        
-        if (!n.isEmpty() && isSosu(n)) {
-            set.add(Integer.parseInt(n));
-            System.out.println(n);
-            count++;
-        }
+    public void dfs(int v, String[] nums, boolean[] visit, String s) {
+        if (v == nums.length) return;
         
         for (int i = 0; i < nums.length; i++) {
-            
             if (visit[i]) continue;
             visit[i] = true;
-            dfs(nums, visit, n + nums[i]);
+            if (isSosu(s + nums[i]))  {
+                uniqueNum.add(Integer.parseInt(s + nums[i]));
+            }
+            dfs(v + 1, nums, visit, s + nums[i]);
             visit[i] = false;
         }
-        
-        
     }
     
-    
-    private boolean isSosu(String num) {
-        
-        
+    public boolean isSosu(String num) {
         int n = Integer.parseInt(num);
-        if (set.contains(n)) return false;
-        if (n == 1 || n == 0) return false;
         
-        if (n == 2) return true;
+        if (n == 0) return false;
+        if (n == 1) return false;
+
         
-        for (int i = 2; i * i <= n; i++) {
+        for (int i = 2; i <= n / 2; i++) {
             if (n % i == 0) return false;
         }
         
